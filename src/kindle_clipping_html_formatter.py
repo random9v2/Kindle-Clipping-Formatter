@@ -234,3 +234,26 @@ class Highlight:
             + f'Highlight Date: {self.date} \t' \
             + f'Highlight Content: {self.content}.'
 
+
+if __name__ == "__main__":
+    PROCESSED_BOOKS = []
+    LIBRARY = []
+
+    # move to the cwd
+    CWD = os.getcwd()
+    os.chdir(CWD)
+    # create output folder if not exists
+    if not os.path.exists(OUTPUT_DIRECTORY_NAME):
+        os.mkdir(OUTPUT_DIRECTORY_NAME)
+
+    # reset knowledge of book titles
+
+    # read in the clippings
+
+    # move to the output directory
+
+    # split all the highlights up into a list
+
+    # process each highlight
+
+    # process each book in our library
