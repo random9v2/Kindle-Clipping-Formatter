@@ -22,6 +22,15 @@ class Book:
         if highlight:
             self.highlights.append(highlight)
 
+    def highlights_to_html(self):
+        # iterate over all highlights creating HTML for each
+        for highlight in self.highlights:
+            yield HIGHLIGHT.safe_substitute({
+                'text': highlight.content,
+                'location': highlight.main_loc,
+                'datetime': highlight.date
+            })
+
     @staticmethod
     def tidy_title(raw_title):
         # remove chars tht are not alphanumeric or ; , _ - . ( ) : ' "
