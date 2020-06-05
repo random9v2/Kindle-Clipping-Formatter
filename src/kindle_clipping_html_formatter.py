@@ -18,6 +18,12 @@ class Book:
         self.author = author
         self.highlights = []
 
+    def add_highlight(self, highlight):
+        if highlight:
+            self.highlights.append(highlight)
+
+    
+
     def __str__(self):
         return f'Book - Title: {self.title} \t Author: {self.author} \t' \
             f'Highlights: {self.highlights}.'
