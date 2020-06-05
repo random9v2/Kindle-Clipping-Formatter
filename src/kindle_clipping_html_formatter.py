@@ -15,6 +15,12 @@ class Highlight:
         self.title, self.author, self.main_loc, self.date, self.content = \
             Highlight.parse_highlight(raw_highlight_str)
 
+    @staticmethod
+    def parse_highlight(raw_highlight_str):
+        # split the highlight up by line
+        split_str = raw_highlight_str.split('\n')
+        
+
     def __str__(self):
         return f'Highlight - Title: {self.title} \t Author: {self.author} \t' \
             + f'Highlight Main Loc: {self.main_loc} \t' \
