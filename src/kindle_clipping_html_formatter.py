@@ -19,7 +19,27 @@ class Highlight:
     def parse_highlight(raw_highlight_str):
         # split the highlight up by line
         split_str = raw_highlight_str.split('\n')
-        
+        # ensure has enough lines
+        if len(split_str) < 5:
+            return (None, None, None, None, None)
+
+        # determine if we are not on the first clipping in the file
+        if split_str[0] == '':
+            # remove the first split as it was a separator originally
+            split_str = split_str[1:]
+
+        # get book title and author
+        book_details = split_str[0]
+        # get last content in round brackets
+        book_details_split = re.search(r"\(([^)]*)\)[^(]*$", book_details)
+        if book_details_split:
+            # get the title and author from the split result
+            title = book_details[:book_details_split.start()]
+            author = book_details_split.group(1)
+        else:
+            return (None, None, None, None, None)
+
+        return (title, author, None, None, None)
 
     def __str__(self):
         return f'Highlight - Title: {self.title} \t Author: {self.author} \t' \
