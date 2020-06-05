@@ -10,13 +10,38 @@ OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
 class Highlight:
+    """Represents a Highlight within a Book and its attributes.
+
+    Attributes:
+        title (str): the book title
+        author (str): the book author
+        main_loc (str): the main location of the highlight
+        date (str): the date the highlight was made
+        content (str): the content of the highlight
+
+    """
 
     def __init__(self, raw_highlight_str):
+        """Initialises a new book.
+
+        Attributes:
+            raw_highlight_str (str): the unprocessed highlight data
+
+        """
         self.title, self.author, self.main_loc, self.date, self.content = \
             Highlight.parse_highlight(raw_highlight_str)
 
     @staticmethod
     def tidy_date(raw_date):
+        """Tidies a clipping date into our desired format.
+
+        Attributes:
+            raw_date (str): the unprocessed date as a string
+
+        Returns:
+            str: our processed date as a string
+
+        """
         # remove unwanted preface
         date_str = raw_date.replace('Added on ', '')
         # define our input datetime string format
@@ -31,6 +56,16 @@ class Highlight:
 
     @staticmethod
     def parse_highlight(raw_highlight_str):
+        """Parses a raw highlight string into a Highlight object.
+
+        Attributes:
+            raw_highlight_str (str): the unprocessed highlight as a string
+
+        Returns:
+            (str, str, str, str, str): title, author, main location, highlight
+            date, highlight content
+
+        """
         # split the highlight up by line
         split_str = raw_highlight_str.split('\n')
         # ensure has enough lines
@@ -77,6 +112,12 @@ class Highlight:
         return (title, author, main_loc, date, content)
 
     def __str__(self):
+        """Prints the highlight's data members.
+
+        Returns:
+            str: a string containing the highlight's data members
+
+        """
         return f'Highlight - Title: {self.title} \t Author: {self.author} \t' \
             + f'Highlight Main Loc: {self.main_loc} \t' \
             + f'Highlight Date: {self.date} \t' \
