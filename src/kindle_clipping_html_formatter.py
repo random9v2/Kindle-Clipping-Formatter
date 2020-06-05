@@ -9,3 +9,15 @@ HTML_FILE_EXTENSION = ".html"
 OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
+class Highlight:
+
+    def __init__(self, raw_highlight_str):
+        self.title, self.author, self.main_loc, self.date, self.content = \
+            Highlight.parse_highlight(raw_highlight_str)
+
+    def __str__(self):
+        return f'Highlight - Title: {self.title} \t Author: {self.author} \t' \
+            + f'Highlight Main Loc: {self.main_loc} \t' \
+            + f'Highlight Date: {self.date} \t' \
+            + f'Highlight Content: {self.content}.'
+
