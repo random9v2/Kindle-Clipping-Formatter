@@ -260,5 +260,17 @@ if __name__ == "__main__":
     HIGHLIGHTS = FILE_CONTENTS.split(HIGHLIGHT_SEPARATOR)
 
     # process each highlight
+    for raw_str in HIGHLIGHTS:
+        h = Highlight(raw_str)
+        # if haven't seen the book title before create a new book, then add the highlight
+        if (not h.title is None) and (h.title not in Book.book_titles):
+            b = Book(h.title, h.author)
+            b.add_highlight(h) # add highlight to book
+            LIBRARY.append(b) # add the new book to our library
+        else:
+            # check all other books we know about to add highlight to its own book
+            for b in LIBRARY:
+                if b.title == h.title:
+                    b.add_highlight(h)
 
     # process each book in our library
