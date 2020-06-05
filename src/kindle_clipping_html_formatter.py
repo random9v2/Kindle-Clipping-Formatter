@@ -68,6 +68,9 @@ class Highlight:
         else:
             return (None, None, None, None, None)
 
+        # tidy our date up into our desired format
+        date = Highlight.tidy_date(date)
+
         # get the highlight content
         content = '\n'.join(split_str[3:-1])
 
