@@ -274,3 +274,11 @@ if __name__ == "__main__":
                     b.add_highlight(h)
 
     # process each book in our library
+    for book in LIBRARY:
+        if book.title:
+            # if we haven't processed the book, process now
+            if book.title.strip() not in PROCESSED_BOOKS:
+                book.write_book_to_html() # send to output
+                PROCESSED_BOOKS.append(book.title.strip()) # add the book as processed
+            else:
+                print(f"HTML file already produced for: {book.title}")
