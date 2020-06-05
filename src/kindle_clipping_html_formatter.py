@@ -247,7 +247,8 @@ if __name__ == "__main__":
         os.mkdir(OUTPUT_DIRECTORY_NAME)
 
     # reset knowledge of book titles
-
+    Book.book_titles = set()
+    
     # read in the clippings
 
     # move to the output directory
