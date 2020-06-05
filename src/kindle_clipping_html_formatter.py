@@ -109,7 +109,7 @@ class Highlight:
         book_details_split = re.search(r"\(([^)]*)\)[^(]*$", book_details)
         if book_details_split:
             # get the title and author from the split result
-            title = book_details[:book_details_split.start()]
+            title = Book.tidy_title(book_details[:book_details_split.start()])
             author = book_details_split.group(1)
         else:
             return (None, None, None, None, None)
