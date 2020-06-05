@@ -39,7 +39,22 @@ class Highlight:
         else:
             return (None, None, None, None, None)
 
-        return (title, author, None, None, None)
+        # get highlight details
+        highlight_details = split_str[1]
+        highlight_details_split = highlight_details.split(" | ")
+        if highlight_details_split:
+            # get the main location and highlight date from the split result
+            main_loc = highlight_details_split[0]
+            if len(highlight_details_split) == 2:
+                date = highlight_details_split[1]
+            else:
+                # add the second location attribute
+                main_loc = main_loc + ', ' + highlight_details_split[1]
+                date = highlight_details_split[2]
+        else:
+            return (None, None, None, None, None)
+
+        return (title, author, main_loc, date, None)
 
     def __str__(self):
         return f'Highlight - Title: {self.title} \t Author: {self.author} \t' \
