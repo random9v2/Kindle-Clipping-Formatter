@@ -10,19 +10,47 @@ OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
 class Book:
+    """Represents a Book and its attributes.
+
+    Attributes:
+        book_titles (set): stores a set of all known book titles
+        title (str): the book title
+        author (str): the book author
+        highlights (list of str): the books highlights
+
+    """
     book_titles = set() # maintain a set of book titles
 
     def __init__(self, title, author):
+        """Initialises a new book.
+
+        Attributes:
+            title (str): the new books title
+            author (str): the new books author
+
+        """
         self.title = Book.tidy_title(title)
         Book.book_titles.add(self.title) # add book to list of known books
         self.author = author
         self.highlights = []
 
     def add_highlight(self, highlight):
+        """Adds a highlight to the book.
+
+        Attributes:
+            highlight (highlight): the new highlight for the book
+
+        """
         if highlight:
             self.highlights.append(highlight)
 
     def highlights_to_html(self):
+        """Creates the HTML for all highlights
+
+        Returns:
+            str: HTML content for all highlights
+
+        """
         # iterate over all highlights creating HTML for each
         for highlight in self.highlights:
             yield HIGHLIGHT.safe_substitute({
@@ -55,6 +83,15 @@ class Book:
 
     @staticmethod
     def tidy_title(raw_title):
+        """Removed unwanted characters from the highlight title.
+
+        Attributes:
+            raw_title (str): the unprocessed title string
+
+        Returns:
+            str: our processed title string
+
+        """
         # remove chars tht are not alphanumeric or ; , _ - . ( ) : ' "
         title = re.sub(r"[^a-zA-Z\d\s;,_\-\.():'\"]+", "", str(raw_title))
         # Trim off anything that isn't a word at the start & end
@@ -62,6 +99,12 @@ class Book:
         return title
 
     def __str__(self):
+        """Prints the book's data members.
+
+        Returns:
+            str: a string containing the book's data members
+
+        """
         return f'Book - Title: {self.title} \t Author: {self.author} \t' \
             f'Highlights: {self.highlights}.'
 
