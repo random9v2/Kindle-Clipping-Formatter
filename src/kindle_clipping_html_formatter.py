@@ -9,6 +9,20 @@ HTML_FILE_EXTENSION = ".html"
 OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
+class Book:
+    book_titles = set() # maintain a set of book titles
+
+    def __init__(self, title, author):
+        self.title = Book.tidy_title(title)
+        Book.book_titles.add(self.title) # add book to list of known books
+        self.author = author
+        self.highlights = []
+
+    def __str__(self):
+        return f'Book - Title: {self.title} \t Author: {self.author} \t' \
+            f'Highlights: {self.highlights}.'
+
+
 class Highlight:
     """Represents a Highlight within a Book and its attributes.
 
