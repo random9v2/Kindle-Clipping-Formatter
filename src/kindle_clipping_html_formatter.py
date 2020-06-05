@@ -254,6 +254,7 @@ if __name__ == "__main__":
         FILE_CONTENTS = clippings_file.read()
 
     # move to the output directory
+    os.chdir(OUTPUT_DIRECTORY_NAME)
 
     # split all the highlights up into a list
 
