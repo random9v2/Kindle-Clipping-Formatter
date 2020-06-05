@@ -31,6 +31,28 @@ class Book:
                 'datetime': highlight.date
             })
 
+    def write_book_to_html(self):
+        """Writes all book attributes to a HTML file."""
+        # get filename from book title and output file extension
+        filename = self.title + HTML_FILE_EXTENSION
+
+        # get all the highlights as HTML
+        highlights_html = self.highlights_to_html()
+
+        # get current datetime in our format
+        datetime_now = datetime.now().strftime('%d/%m/%y %H:%M:%S')
+
+        # write the book to HTML
+        with open(filename, 'w') as book_file:
+            book_file.write(PAGE.safe_substitute({
+                'book_title': self.title,
+                'book_author': self.author,
+                'file_datetime': datetime_now,
+                'book_highlights': '\n'.join(list(highlights_html))
+            }))
+            # give status prompt to user
+            print(f"HTML file produced for: {self.title}")
+
     @staticmethod
     def tidy_title(raw_title):
         # remove chars tht are not alphanumeric or ; , _ - . ( ) : ' "
