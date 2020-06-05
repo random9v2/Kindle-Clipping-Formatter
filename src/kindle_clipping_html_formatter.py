@@ -257,6 +257,7 @@ if __name__ == "__main__":
     os.chdir(OUTPUT_DIRECTORY_NAME)
 
     # split all the highlights up into a list
+    HIGHLIGHTS = FILE_CONTENTS.split(HIGHLIGHT_SEPARATOR)
 
     # process each highlight
 
