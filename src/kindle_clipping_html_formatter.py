@@ -248,8 +248,10 @@ if __name__ == "__main__":
 
     # reset knowledge of book titles
     Book.book_titles = set()
-    
+
     # read in the clippings
+    with open(CLIPPINGS_FILENAME, "r") as clippings_file:
+        FILE_CONTENTS = clippings_file.read()
 
     # move to the output directory
 
