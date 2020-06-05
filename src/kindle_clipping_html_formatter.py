@@ -16,6 +16,20 @@ class Highlight:
             Highlight.parse_highlight(raw_highlight_str)
 
     @staticmethod
+    def tidy_date(raw_date):
+        # remove unwanted preface
+        date_str = raw_date.replace('Added on ', '')
+        # define our input datetime string format
+        # expected date_str: Tuesday, 4 December 12 22:52:19
+        date_str_in_format = '%A, %d %B %Y %H:%M:%S'
+        # read in our datetime using our expected format string
+        datetime_object = datetime.strptime(date_str, date_str_in_format)
+        # define an output datetime string format
+        date_str_out_format = '%d/%m/%y %H:%M'
+        # return the datetime in our desired format
+        return datetime_object.strftime(date_str_out_format)
+
+    @staticmethod
     def parse_highlight(raw_highlight_str):
         # split the highlight up by line
         split_str = raw_highlight_str.split('\n')
