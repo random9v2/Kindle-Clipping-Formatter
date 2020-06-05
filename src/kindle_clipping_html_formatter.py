@@ -54,7 +54,10 @@ class Highlight:
         else:
             return (None, None, None, None, None)
 
-        return (title, author, main_loc, date, None)
+        # get the highlight content
+        content = '\n'.join(split_str[3:-1])
+
+        return (title, author, main_loc, date, content)
 
     def __str__(self):
         return f'Highlight - Title: {self.title} \t Author: {self.author} \t' \
