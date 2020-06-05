@@ -22,7 +22,13 @@ class Book:
         if highlight:
             self.highlights.append(highlight)
 
-    
+    @staticmethod
+    def tidy_title(raw_title):
+        # remove chars tht are not alphanumeric or ; , _ - . ( ) : ' "
+        title = re.sub(r"[^a-zA-Z\d\s;,_\-\.():'\"]+", "", str(raw_title))
+        # Trim off anything that isn't a word at the start & end
+        title = re.sub(r"^\W+|\W+$", "", title)
+        return title
 
     def __str__(self):
         return f'Book - Title: {self.title} \t Author: {self.author} \t' \
