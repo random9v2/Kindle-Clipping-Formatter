@@ -1,3 +1,14 @@
+"""Kindle Clipping txt file to HTML formatter.
+
+This module provides a set of functions to convert Kindle Clippings from their
+native txt file format to a styled HTML format.
+
+Example:
+    $ python3 kindle_clipping_html_formatter.py
+    Run this in the directory with the clippings txt file in.
+
+"""
+
 import re
 import os
 from datetime import datetime
