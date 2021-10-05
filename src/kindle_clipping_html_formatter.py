@@ -246,12 +246,12 @@ class Highlight:
 
 ########################################################################################################################
 def process(clippings_file_path, output_dir_path):
-    PROCESSED_BOOKS = []
-    LIBRARY = []
+    processed_books = []
+    library = []
 
     # move to the cwd
-    CWD = os.getcwd()
-    os.chdir(CWD)
+    cwd = os.getcwd()
+    os.chdir(cwd)
     # create output folder if not exists
     if not os.path.exists(output_dir_path):
         os.mkdir(output_dir_path)
@@ -261,35 +261,35 @@ def process(clippings_file_path, output_dir_path):
 
     # read in the clippings
     with open(clippings_file_path, "r") as clippings_file:
-        FILE_CONTENTS = clippings_file.read()
+        file_contents = clippings_file.read()
 
     # move to the output directory
     os.chdir(output_dir_path)
 
     # split all the highlights up into a list
-    HIGHLIGHTS = FILE_CONTENTS.split(HIGHLIGHT_SEPARATOR)
+    highlights = file_contents.split(HIGHLIGHT_SEPARATOR)
 
     # process each highlight
-    for raw_str in HIGHLIGHTS:
+    for raw_str in highlights:
         h = Highlight(raw_str)
         # if haven't seen the book title before create a new book, then add the highlight
         if (not h.title is None) and (h.title not in Book.book_titles):
             b = Book(h.title, h.author)
             b.add_highlight(h) # add highlight to book
-            LIBRARY.append(b) # add the new book to our library
+            library.append(b) # add the new book to our library
         else:
             # check all other books we know about to add highlight to its own book
-            for b in LIBRARY:
+            for b in library:
                 if b.title == h.title:
                     b.add_highlight(h)
 
     # process each book in our library
-    for book in LIBRARY:
+    for book in library:
         if book.title:
             # if we haven't processed the book, process now
-            if book.title.strip() not in PROCESSED_BOOKS:
+            if book.title.strip() not in processed_books:
                 book.write_book_to_html() # send to output
-                PROCESSED_BOOKS.append(book.title.strip()) # add the book as processed
+                processed_books.append(book.title.strip()) # add the book as processed
             else:
                 print(f"HTML file already produced for: {book.title}")
 
