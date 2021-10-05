@@ -1,22 +1,20 @@
-"""Kindle Clipping txt file to HTML formatter.
+"""Kindle Clipping TXT file to HTML document formatter.
 
 This module provides a set of functions to convert Kindle Clippings from their
-native txt file format to a styled HTML format.
+native TXT file format to a styled HTML document.
 
 Example:
     $ python3 kindle_clipping_html_formatter.py
-    Run this in the directory with the clippings txt file in.
 
 """
 
 import re
 import os
 from datetime import datetime
+import argparse
 
 from kindle_clipping_html_templates import PAGE, HIGHLIGHT
 
-CLIPPINGS_FILENAME = "My Clippings.txt"
-OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
 ########################################################################################################################
@@ -295,4 +293,11 @@ def process(clippings_file_path, output_dir_path):
 
 ########################################################################################################################
 if __name__ == "__main__":
-    process(CLIPPINGS_FILENAME, OUTPUT_DIRECTORY_NAME)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--clippings_file_path", help="The path to the Kindle clippings text file.", \
+                        default="./My Clippings.txt")
+    parser.add_argument("-o", "--output_dir_path", help="The path for the output directory.", \
+                        default="./output/")
+    args = parser.parse_args()
+
+    process(args.clippings_file_path, args.output_dir_path)
