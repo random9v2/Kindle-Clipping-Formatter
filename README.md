@@ -1,12 +1,25 @@
 # Kindle Clipping Formatter
-A simple tool to convert Kindle Clippings from the native txt format to formatted HTML documents.
+A simple Python tool to convert Kindle Book Clippings from the default text file to a set of formatted web pages.
 
-Takes the MyClippings.txt file produced by the Kindle device and for each book in this, produces a HTML document with all highlights relating to this book. The page/location reference along with highlight date are added below each highlight.
+The script parses the `My Clippings.txt` file produced by the Kindle device and, for each book present, produces a HTML document with all highlights made by the user. The page/location reference along with highlight date are added below each highlight.
 
+## Usage
+Within the `src` directory, run the following to use the default arguments:
+```bash
+python3 kindle_clipping_html_formatter.py
+```
+
+The input clippings file path can be specified by adding the `-i` argument (see example below).
+
+The output directory path can be specified by adding the `-o` argument (see example below).
+
+```bash
+python3 kindle_clipping_html_formatter.py -i "/your/clippings/input/file/path/here/My Clippings.txt" -o "/your/output/file/path/here/"
+```
 
 ## Example
 
-For MyClippings.txt Contents:
+For `My Clippings.txt` Contents:
 
 ```text
 My Book Name (Author Name)
@@ -26,7 +39,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida turpis tu
 ==========
 ```
 
-Produces two HTML files in the output directory:
+We can run the formatter script (from within the `src` directory) using something along the lines of:
+```bash
+python3 kindle_clipping_html_formatter.py -i "/your/clippings/input/file/path/here/My Clippings.txt"
+```
+And our resulting web pages will be located within the `output` directory (within the `src` directory).
+
+When we open these web pages using any web browser, we can visualise our formatted clippings - see images below for this example.
 
 `My Book Name.html`:
 
