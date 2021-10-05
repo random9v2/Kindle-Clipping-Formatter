@@ -1,3 +1,7 @@
+# Misc.
+src/output
+src/My\ Clippings.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

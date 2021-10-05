@@ -1,25 +1,23 @@
-"""Kindle Clipping txt file to HTML formatter.
+"""Kindle Clipping TXT file to HTML document formatter.
 
 This module provides a set of functions to convert Kindle Clippings from their
-native txt file format to a styled HTML format.
+native TXT file format to a styled HTML document.
 
 Example:
     $ python3 kindle_clipping_html_formatter.py
-    Run this in the directory with the clippings txt file in.
 
 """
 
 import re
 import os
 from datetime import datetime
+import argparse
 
 from kindle_clipping_html_templates import PAGE, HIGHLIGHT
 
-CLIPPINGS_FILENAME = "My Clippings.txt"
-HTML_FILE_EXTENSION = ".html"
-OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
+########################################################################################################################
 class Book:
     """Represents a Book and its attributes.
 
@@ -32,6 +30,7 @@ class Book:
     """
     book_titles = set() # maintain a set of book titles
 
+    ####################################################################################################################
     def __init__(self, title, author):
         """Initialises a new book.
 
@@ -45,6 +44,7 @@ class Book:
         self.author = author
         self.highlights = []
 
+    ####################################################################################################################
     def add_highlight(self, highlight):
         """Adds a highlight to the book.
 
@@ -55,6 +55,7 @@ class Book:
         if highlight:
             self.highlights.append(highlight)
 
+    ####################################################################################################################
     def highlights_to_html(self):
         """Creates the HTML for all highlights
 
@@ -70,10 +71,11 @@ class Book:
                 'datetime': highlight.date
             })
 
+    ####################################################################################################################
     def write_book_to_html(self):
         """Writes all book attributes to a HTML file."""
         # get filename from book title and output file extension
-        filename = self.title + HTML_FILE_EXTENSION
+        filename = "{}.html".format(self.title)
 
         # get all the highlights as HTML
         highlights_html = self.highlights_to_html()
@@ -92,6 +94,7 @@ class Book:
             # give status prompt to user
             print(f"HTML file produced for: {self.title}")
 
+    ####################################################################################################################
     @staticmethod
     def tidy_title(raw_title):
         """Removed unwanted characters from the highlight title.
@@ -109,6 +112,7 @@ class Book:
         title = re.sub(r"^\W+|\W+$", "", title)
         return title
 
+    ####################################################################################################################
     def __str__(self):
         """Prints the book's data members.
 
@@ -119,7 +123,7 @@ class Book:
         return f'Book - Title: {self.title} \t Author: {self.author} \t' \
             f'Highlights: {self.highlights}.'
 
-
+########################################################################################################################
 class Highlight:
     """Represents a Highlight within a Book and its attributes.
 
@@ -132,6 +136,7 @@ class Highlight:
 
     """
 
+    ####################################################################################################################
     def __init__(self, raw_highlight_str):
         """Initialises a new book.
 
@@ -142,6 +147,7 @@ class Highlight:
         self.title, self.author, self.main_loc, self.date, self.content = \
             Highlight.parse_highlight(raw_highlight_str)
 
+    ####################################################################################################################
     @staticmethod
     def tidy_date(raw_date):
         """Tidies a clipping date into our desired format.
@@ -165,6 +171,7 @@ class Highlight:
         # return the datetime in our desired format
         return datetime_object.strftime(date_str_out_format)
 
+    ####################################################################################################################
     @staticmethod
     def parse_highlight(raw_highlight_str):
         """Parses a raw highlight string into a Highlight object.
@@ -222,6 +229,7 @@ class Highlight:
 
         return (title, author, main_loc, date, content)
 
+    ####################################################################################################################
     def __str__(self):
         """Prints the highlight's data members.
 
@@ -234,51 +242,62 @@ class Highlight:
             + f'Highlight Date: {self.date} \t' \
             + f'Highlight Content: {self.content}.'
 
-
-if __name__ == "__main__":
-    PROCESSED_BOOKS = []
-    LIBRARY = []
+########################################################################################################################
+def process(clippings_file_path, output_dir_path):
+    processed_books = []
+    library = []
 
     # move to the cwd
-    CWD = os.getcwd()
-    os.chdir(CWD)
+    cwd = os.getcwd()
+    os.chdir(cwd)
     # create output folder if not exists
-    if not os.path.exists(OUTPUT_DIRECTORY_NAME):
-        os.mkdir(OUTPUT_DIRECTORY_NAME)
+    if not os.path.exists(output_dir_path):
+        os.mkdir(output_dir_path)
 
     # reset knowledge of book titles
     Book.book_titles = set()
 
     # read in the clippings
-    with open(CLIPPINGS_FILENAME, "r") as clippings_file:
-        FILE_CONTENTS = clippings_file.read()
+    with open(clippings_file_path, "r") as clippings_file:
+        file_contents = clippings_file.read()
 
     # move to the output directory
-    os.chdir(OUTPUT_DIRECTORY_NAME)
+    os.chdir(output_dir_path)
 
     # split all the highlights up into a list
-    HIGHLIGHTS = FILE_CONTENTS.split(HIGHLIGHT_SEPARATOR)
+    highlights = file_contents.split(HIGHLIGHT_SEPARATOR)
 
     # process each highlight
-    for raw_str in HIGHLIGHTS:
+    for raw_str in highlights:
         h = Highlight(raw_str)
         # if haven't seen the book title before create a new book, then add the highlight
         if (not h.title is None) and (h.title not in Book.book_titles):
             b = Book(h.title, h.author)
             b.add_highlight(h) # add highlight to book
-            LIBRARY.append(b) # add the new book to our library
+            library.append(b) # add the new book to our library
         else:
             # check all other books we know about to add highlight to its own book
-            for b in LIBRARY:
+            for b in library:
                 if b.title == h.title:
                     b.add_highlight(h)
 
     # process each book in our library
-    for book in LIBRARY:
+    for book in library:
         if book.title:
             # if we haven't processed the book, process now
-            if book.title.strip() not in PROCESSED_BOOKS:
+            if book.title.strip() not in processed_books:
                 book.write_book_to_html() # send to output
-                PROCESSED_BOOKS.append(book.title.strip()) # add the book as processed
+                processed_books.append(book.title.strip()) # add the book as processed
             else:
                 print(f"HTML file already produced for: {book.title}")
+
+########################################################################################################################
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--clippings_file_path", help="The path to the Kindle clippings text file.", \
+                        default="./My Clippings.txt")
+    parser.add_argument("-o", "--output_dir_path", help="The path for the output directory.", \
+                        default="./output/")
+    args = parser.parse_args()
+
+    process(args.clippings_file_path, args.output_dir_path)
