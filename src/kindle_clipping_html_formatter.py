@@ -16,7 +16,6 @@ from datetime import datetime
 from kindle_clipping_html_templates import PAGE, HIGHLIGHT
 
 CLIPPINGS_FILENAME = "My Clippings.txt"
-HTML_FILE_EXTENSION = ".html"
 OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
@@ -78,7 +77,7 @@ class Book:
     def write_book_to_html(self):
         """Writes all book attributes to a HTML file."""
         # get filename from book title and output file extension
-        filename = self.title + HTML_FILE_EXTENSION
+        filename = "{}.html".format(self.title)
 
         # get all the highlights as HTML
         highlights_html = self.highlights_to_html()
@@ -246,7 +245,7 @@ class Highlight:
             + f'Highlight Content: {self.content}.'
 
 ########################################################################################################################
-if __name__ == "__main__":
+def process(clippings_file_path, output_dir_path):
     PROCESSED_BOOKS = []
     LIBRARY = []
 
@@ -254,18 +253,18 @@ if __name__ == "__main__":
     CWD = os.getcwd()
     os.chdir(CWD)
     # create output folder if not exists
-    if not os.path.exists(OUTPUT_DIRECTORY_NAME):
-        os.mkdir(OUTPUT_DIRECTORY_NAME)
+    if not os.path.exists(output_dir_path):
+        os.mkdir(output_dir_path)
 
     # reset knowledge of book titles
     Book.book_titles = set()
 
     # read in the clippings
-    with open(CLIPPINGS_FILENAME, "r") as clippings_file:
+    with open(clippings_file_path, "r") as clippings_file:
         FILE_CONTENTS = clippings_file.read()
 
     # move to the output directory
-    os.chdir(OUTPUT_DIRECTORY_NAME)
+    os.chdir(output_dir_path)
 
     # split all the highlights up into a list
     HIGHLIGHTS = FILE_CONTENTS.split(HIGHLIGHT_SEPARATOR)
@@ -293,3 +292,7 @@ if __name__ == "__main__":
                 PROCESSED_BOOKS.append(book.title.strip()) # add the book as processed
             else:
                 print(f"HTML file already produced for: {book.title}")
+
+########################################################################################################################
+if __name__ == "__main__":
+    process(CLIPPINGS_FILENAME, OUTPUT_DIRECTORY_NAME)
