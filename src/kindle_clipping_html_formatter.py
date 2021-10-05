@@ -20,6 +20,7 @@ HTML_FILE_EXTENSION = ".html"
 OUTPUT_DIRECTORY_NAME = 'output'
 HIGHLIGHT_SEPARATOR = "=========="
 
+########################################################################################################################
 class Book:
     """Represents a Book and its attributes.
 
@@ -32,6 +33,7 @@ class Book:
     """
     book_titles = set() # maintain a set of book titles
 
+    ####################################################################################################################
     def __init__(self, title, author):
         """Initialises a new book.
 
@@ -45,6 +47,7 @@ class Book:
         self.author = author
         self.highlights = []
 
+    ####################################################################################################################
     def add_highlight(self, highlight):
         """Adds a highlight to the book.
 
@@ -55,6 +58,7 @@ class Book:
         if highlight:
             self.highlights.append(highlight)
 
+    ####################################################################################################################
     def highlights_to_html(self):
         """Creates the HTML for all highlights
 
@@ -70,6 +74,7 @@ class Book:
                 'datetime': highlight.date
             })
 
+    ####################################################################################################################
     def write_book_to_html(self):
         """Writes all book attributes to a HTML file."""
         # get filename from book title and output file extension
@@ -92,6 +97,7 @@ class Book:
             # give status prompt to user
             print(f"HTML file produced for: {self.title}")
 
+    ####################################################################################################################
     @staticmethod
     def tidy_title(raw_title):
         """Removed unwanted characters from the highlight title.
@@ -109,6 +115,7 @@ class Book:
         title = re.sub(r"^\W+|\W+$", "", title)
         return title
 
+    ####################################################################################################################
     def __str__(self):
         """Prints the book's data members.
 
@@ -119,7 +126,7 @@ class Book:
         return f'Book - Title: {self.title} \t Author: {self.author} \t' \
             f'Highlights: {self.highlights}.'
 
-
+########################################################################################################################
 class Highlight:
     """Represents a Highlight within a Book and its attributes.
 
@@ -132,6 +139,7 @@ class Highlight:
 
     """
 
+    ####################################################################################################################
     def __init__(self, raw_highlight_str):
         """Initialises a new book.
 
@@ -142,6 +150,7 @@ class Highlight:
         self.title, self.author, self.main_loc, self.date, self.content = \
             Highlight.parse_highlight(raw_highlight_str)
 
+    ####################################################################################################################
     @staticmethod
     def tidy_date(raw_date):
         """Tidies a clipping date into our desired format.
@@ -165,6 +174,7 @@ class Highlight:
         # return the datetime in our desired format
         return datetime_object.strftime(date_str_out_format)
 
+    ####################################################################################################################
     @staticmethod
     def parse_highlight(raw_highlight_str):
         """Parses a raw highlight string into a Highlight object.
@@ -222,6 +232,7 @@ class Highlight:
 
         return (title, author, main_loc, date, content)
 
+    ####################################################################################################################
     def __str__(self):
         """Prints the highlight's data members.
 
@@ -234,7 +245,7 @@ class Highlight:
             + f'Highlight Date: {self.date} \t' \
             + f'Highlight Content: {self.content}.'
 
-
+########################################################################################################################
 if __name__ == "__main__":
     PROCESSED_BOOKS = []
     LIBRARY = []
