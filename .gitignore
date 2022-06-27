@@ -1,6 +1,10 @@
 # Misc.
 src/output
-src/My\ Clippings.txt
+src/My*Clippings*.txt
+
+# Mac
+.DS_Store
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

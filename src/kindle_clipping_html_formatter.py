@@ -161,6 +161,12 @@ class Highlight:
         """
         # remove unwanted preface
         date_str = raw_date.replace('Added on ', '')
+        # -- remove German
+        date_str = date_str.replace('Hinzugefügt am ', '')
+        date_str = date_str.replace('.', '')
+        # -- set Kindle local
+        import locale
+        locale.setlocale(locale.LC_TIME, "de_DE")
         # define our input datetime string format
         # expected date_str: Tuesday, 4 December 12 22:52:19
         date_str_in_format = '%A, %d %B %Y %H:%M:%S'
